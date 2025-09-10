@@ -31,85 +31,102 @@ class _HomeState extends State<Home> {
     "Você GANHOU! :)",
   ];
 
-  void result(String jogada, String cpu){
+  void result(String jogada, String cpu) {
     _result = _results[combinations["$jogada$cpu"]];
     print("Resultado: $_result");
   }
-  
-  final List<String> _moveList = [ 
+
+  final List<String> _moveList = [
     "images/pedra.png",
     "images/tesoura.png",
     "images/papel.png",
   ];
 
-  String nextMove(){
+  String nextMove() {
     int index = Random().nextInt(_moveList.length);
     _move = _moveList[index];
     print('cpu: ' + _move);
-    if(index == 0) return 'pedra';
-    if(index == 1) return 'tesoura';
+    if (index == 0) return 'pedra';
+    if (index == 1) return 'tesoura';
     return 'papel';
   }
 
-void tapPedra() {
-  setState(() {
-    result('pedra', nextMove());
-  });
-}
+  void tapPedra() {
+    setState(() {
+      result('pedra', nextMove());
+    });
+  }
 
-void tapPapel() {
-  setState(() {
-    result('papel', nextMove());
-  });
-}
+  void tapPapel() {
+    setState(() {
+      result('papel', nextMove());
+    });
+  }
 
-void tapTesoura() {
-  setState(() {
-    result('tesoura', nextMove());
-  });
-}
+  void tapTesoura() {
+    setState(() {
+      result('tesoura', nextMove());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pedra, Papel ou Tesoura!"),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              ),
+      appBar: AppBar(
+        title: Text("Pedra, Papel ou Tesoura!"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
       body: Center(
-              child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset(_move, height: 120, width: 120),
+            Text(
+              _result,
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: _result == _results[0]
+                    ? Colors.red
+                    : (_result == _results[2] ? Colors.green : Colors.grey),
+              ),
+            ),
+            Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image.asset(_move, height: 120, width: 120,),
-                  Text(_result, style: TextStyle(
-                    fontSize: 40, 
-                    fontWeight: FontWeight.bold, 
-                    color: _result == _results[0] ? Colors.red: (_result == _results[2] ? Colors.green: Colors.grey),
+                  GestureDetector(
+                    onTap: tapPedra,
+                    child: Image.asset(
+                      "images/pedra.png",
+                      height: 80,
+                      width: 80,
                     ),
                   ),
-                  Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: tapPedra,
-                        child: Image.asset("images/pedra.png", height: 80, width: 80,),
-                      ),
-                      GestureDetector(
-                        onTap: tapPapel,
-                        child: Image.asset("images/papel.png", height: 80, width: 80,),
-                      ),
-                      GestureDetector(
-                        onTap: tapTesoura,
-                        child: Image.asset("images/tesoura.png", height: 80, width: 80,),
-                      ),
-                    ],
-                  )
-                  )
+                  GestureDetector(
+                    onTap: tapPapel,
+                    child: Image.asset(
+                      "images/papel.png",
+                      height: 80,
+                      width: 80,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: tapTesoura,
+                    child: Image.asset(
+                      "images/tesoura.png",
+                      height: 80,
+                      width: 80,
+                    ),
+                  ),
                 ],
               ),
             ),
-    ); 
+          ],
+        ),
+      ),
+    );
   }
 }
